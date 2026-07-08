@@ -48,7 +48,7 @@ export const googleCallback = async (req: Request, res: Response) => {
             }
         );
 
-        res.redirect("http://localhost:5173/inbox");
+        res.redirect("https://dazzling-cobbler-99aa5b.netlify.app/inbox");
 
     } catch (err) {
         console.error(err);
