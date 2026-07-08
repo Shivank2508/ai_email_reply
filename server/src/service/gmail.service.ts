@@ -64,3 +64,46 @@ export const getEmailById = async (id: string) => {
 
     return res.data
 }
+
+export const sendEmail = async (
+    to: string,
+    subject: string,
+    body: string,
+    threadId: string,
+    messageId: string
+) => {
+    const message = [
+        `To: ${to}`,
+        `Subject: ${subject}`,
+        "Content-Type: text/html; charset=UTF-8",
+        "MIME-Version: 1.0",
+        `In-Reply-To: ${messageId}`,
+        `References: ${messageId}`,
+        "",
+        body,
+    ].join("\n");
+
+    const encodedMessage = Buffer.from(message)
+        .toString("base64")
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=+$/, "");
+
+    return gmail.users.messages.send({
+        userId: "me",
+        requestBody: {
+            raw: encodedMessage,
+            threadId,
+        },
+    });
+};
+
+export const markEmailAsRead = async (emailId: string) => {
+    return gmail.users.messages.modify({
+        userId: "me",
+        id: emailId,
+        requestBody: {
+            removeLabelIds: ["UNREAD"],
+        },
+    });
+};

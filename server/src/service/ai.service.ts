@@ -1,15 +1,14 @@
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-import { email } from "zod";
+import { ChatGroq } from "@langchain/groq";
 import { EmailSchemas } from "../schemas/email.schema";
 
-const model=new ChatGoogleGenerativeAI({
-    model:"gemini-1.5-flash",
-    apiKey:process.env.GOOGLE_API_KEY
-})
+const model = new ChatGroq({
+    model: "llama-3.3-70b-versatile", // or another Groq-supported model
+    apiKey: process.env.GROQ_URL,
+    temperature: 0,
+});
 
-
-export const GenerateEmailReply=async(emailBody:string)=>{
-   const prompt = `
+export const GenerateEmailReply = async (emailBody: string) => {
+    const prompt = `
 You are an expert professional email assistant.
 
 Read the email below and generate a clear, professional, and context-aware reply.
@@ -28,8 +27,8 @@ Original Email:
 ${emailBody}
 `;
 
-const structuredOutput=model.withStructuredOutput(EmailSchemas)
-const result=await structuredOutput.invoke(prompt)
+    const structuredOutput = model.withStructuredOutput(EmailSchemas)
+    const result = await structuredOutput.invoke(prompt)
 
-return result
+    return result
 }

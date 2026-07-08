@@ -21,7 +21,7 @@ pids
 *.pid.lock
 
 # Environment files
-
+server/src/config/credentials.json
 .env
 .env.local
 .env.development.local

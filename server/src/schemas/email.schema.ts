@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const EmailSchemas=z.object({
+export const EmailSchemas = z.object({
     reply: z.string().describe(
         "The complete professional email reply generated for the user's received email"
     ),

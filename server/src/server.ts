@@ -1,11 +1,26 @@
-import app from "./app"
-import authRoutes from "./routes/auth.routes"
-import emailRoutes from "./routes/email.routes"
+import app from "./app";
+import { connectToMongoDB } from "./db/connection";
+import authRoutes from "./routes/auth.routes";
+import emailRoutes from "./routes/email.routes";
 
-app.use("/auth", authRoutes)
-app.use("/email", emailRoutes)
-const port = 8000
+app.use("/auth", authRoutes);
+app.use("/email", emailRoutes);
 
-app.listen(port, () => {
-    console.log(`server is running on ${port}`)
-})
+// Health Check Route
+app.get("/health", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Server is running",
+        status: "OK",
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+    });
+});
+
+const port = 8000;
+
+connectToMongoDB().then(() => {
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    });
+});
