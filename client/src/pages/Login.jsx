@@ -12,7 +12,7 @@ const Login = () => {
 
     const handleGoogleLogin = () => {
         setLoading(true);
-        window.location.href = "http://localhost:8000/auth/google";
+        window.location.href = "https://ai-email-reply-jx35.onrender.com/auth/google";
     };
 
     return (
