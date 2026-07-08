@@ -103,7 +103,9 @@ export const sendEmailController = async (
         const { id } = req.params;
         const { body } = req.body;
 
-        const email = await getEmailById(id);
+        const emailID = Array.isArray(id) ? id[0] : id;
+
+        const email = await getEmailById(emailID);
         const headers = email.payload?.headers || [];
 
         const subject =
@@ -130,7 +132,7 @@ export const sendEmailController = async (
         );
 
         // Mark the original email as read
-        await markEmailAsRead(id);
+        await markEmailAsRead(emailID);
 
         res.json({
             success: true,
