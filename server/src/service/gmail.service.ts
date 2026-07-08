@@ -1,14 +1,15 @@
 import { google } from "googleapis"
-import credentials from "../config/credentials.json"
 
 
-const { client_id, client_secret, redirect_uris } = credentials.web
+const client_id = process.env.GOOGLE_CLIENT_ID!;
+const client_secret = process.env.GOOGLE_CLIENT_SECRET!;
+const redirect_uris = process.env.GOOGLE_REDIRECT_URI!;
 
 export const oauth2Client = new google.auth.OAuth2(
     client_id,
     client_secret,
-    redirect_uris[0]
-)
+    redirect_uris
+);
 
 export const gmail = google.gmail({
     version: "v1",
